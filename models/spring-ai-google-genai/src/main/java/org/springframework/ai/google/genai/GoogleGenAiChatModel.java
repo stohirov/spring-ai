@@ -558,8 +558,8 @@ public class GoogleGenAiChatModel implements ChatModel, DisposableBean {
 					ChatResponse aggregatedResponse = aggregatedResponseRef.get();
 					if (aggregatedResponse != null && this.toolExecutionEligibilityPredicate
 						.isToolExecutionRequired(options, aggregatedResponse)) {
-						// FIXME: bounded elastic needs to be used since tool calling
-						// is currently only synchronous
+						// Execute tool calls on bounded elastic scheduler (tool execution
+						// is blocking)
 						ToolExecutionResult toolExecutionResult;
 						try {
 							if (this.internalToolExecutionWarned.compareAndSet(false, true)) {

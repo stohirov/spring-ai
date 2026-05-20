@@ -823,8 +823,8 @@ public class BedrockProxyChatModel implements ChatModel {
 				if (this.toolExecutionEligibilityPredicate.isToolExecutionRequired(options, chatResponse)
 						&& chatResponse.hasFinishReasons(Set.of(StopReason.TOOL_USE.toString()))) {
 
-					// FIXME: bounded elastic needs to be used since tool calling
-					// is currently only synchronous
+					// Execute tool calls on bounded elastic scheduler (tool execution is
+					// blocking)
 					return Flux.deferContextual(ctx -> {
 						ToolExecutionResult toolExecutionResult;
 						try {

@@ -391,8 +391,7 @@ public class OllamaChatModel implements ChatModel {
 				ChatOptions options = prompt.getOptions();
 				Assert.state(options != null, "ChatOptions must not be null");
 				if (this.toolExecutionEligibilityPredicate.isToolExecutionRequired(options, response)) {
-					// FIXME: bounded elastic needs to be used since tool calling
-					//  is currently only synchronous
+					// Execute tool calls on bounded elastic scheduler (tool execution is blocking)
 					return Flux.deferContextual(ctx -> {
 						ToolExecutionResult toolExecutionResult;
 						try {
